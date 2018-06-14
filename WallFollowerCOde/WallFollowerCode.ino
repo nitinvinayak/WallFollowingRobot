@@ -1,39 +1,48 @@
+#include <PID_v1.h>
+
 #define mxspd 255
 #define factor=255/8
+#define kp 10
+#define kd 0.5
+#define ki 0
 
 int mpin1=11;
 int mpin2=10;
 int mpin3=5;
 int mpin4=6;
 
-int spdf=mxspd;
-int spdb=mxspd;
+int spd=100;
+
+double setpt = 30;
+double distance;
 
 const int trigpin=3;
 const int echopin=A0;
 
 long duration;
-int distance;
+double ctrlsgnl;
 
 const int trigpin1=9;
 const int echopin1=A1;
 
 long duration1;
-int distance1;
- 
+double distance1;
+
+PID myPID(&distance,&ctrlsgnl,&setpt,kp,kd,ki,DIRECT);
+
 void frwd()
 {
   analogWrite(mpin1,0);
-  analogWrite(mpin2,spdf);
+  analogWrite(mpin2,spd);
   analogWrite(mpin3,0);
-  analogWrite(mpin4,spdf);
+  analogWrite(mpin4,spd);
 }
 void bkwd()
 {
   analogWrite(mpin2,0);
-  analogWrite(mpin1,spdb);
+  analogWrite(mpin1,spd);
   analogWrite(mpin4,0);
-  analogWrite(mpin3,spdb);
+  analogWrite(mpin3,spd);
 }
 void stp()
 {
@@ -89,12 +98,7 @@ void setup()
 }
 
 void loop() {
-  //frwd();
-  if(ultsnd1()<10 or ultsnd()<10)
-  {
-    stp();
-  }
-  bkwd();
+
 
   
  

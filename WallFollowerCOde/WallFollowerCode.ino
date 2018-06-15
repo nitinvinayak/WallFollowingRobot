@@ -72,6 +72,7 @@ void loop() {
     {
       spdl=0;
       spdr=-defspd;
+      move();
      
     }
     while(distancef<100)
@@ -79,10 +80,22 @@ void loop() {
       distancef=ultsndf();
       spdl=defspd;
       spdr=defspd;
+      move();
       
     }
     myPID.Compute();
-    
+    if(ctrlsgnl>0)
+    {
+      spdl=1.2*(defspd+ctrlsgnl);
+      spdr=defspd;
+    }
+    else
+    {
+      
+      spdr=1.2*(defspd-ctrlsgnl);
+      spdl=defspd;
+    }
+    Serial.println(ctrlsgnl);
 }
 void move()
 {
@@ -135,9 +148,6 @@ int ultsndf()
   digitalWrite(trigpin,LOW);
   duration=pulseIn(echopin,HIGH);
   distance=duration*.034/2;
-
-  Serial.print("Distance: ");
-  Serial.println(distance);
   
   return distance;
 }
@@ -151,8 +161,5 @@ int ultsndl()
   duration1=pulseIn(echopin1,HIGH);
   distance1=duration1*.034/2;
 
-  Serial.print("Distance1: ");
-  Serial.println(distance1);
-  
   return distance1;
 }

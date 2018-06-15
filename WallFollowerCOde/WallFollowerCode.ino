@@ -11,7 +11,9 @@ int mpin2=10;
 int mpin3=5;
 int mpin4=6;
 
-int spd=100;
+double defspd=100;
+double spdl;
+double spdr;
 
 double setpt = 30;
 double distance;
@@ -28,22 +30,46 @@ const int echopin1=A1;
 long duration1;
 double distance1;
 
+double distancef;
+double distancel;
+
 PID myPID(&distance,&ctrlsgnl,&setpt,kp,kd,ki,DIRECT);
 
-void frwd()
+
+void setup() 
+{    
+  pinMode(mpin1,OUTPUT);
+  pinMode(mpin2,OUTPUT);
+  pinMode(mpin3,OUTPUT);
+  pinMode(mpin4,OUTPUT);
+  
+  pinMode(trigpin,OUTPUT);
+  pinMode(echopin,INPUT);
+  pinMode(trigpin1,OUTPUT);
+  pinMode(echopin1,INPUT);
+
+  myPID.SetOutputLimits(-100,100);
+  myPID.SetMode(AUTOMATIC);
+  
+  Serial.begin(9600);
+
+}
+
+void loop() {
+    distancel=ultsndl();
+   move();
+
+}
+void move()
 {
+  
+  
   analogWrite(mpin1,0);
-  analogWrite(mpin2,spd);
+  analogWrite(mpin2,255);
   analogWrite(mpin3,0);
-  analogWrite(mpin4,spd);
-}
-void bkwd()
-{
-  analogWrite(mpin2,0);
-  analogWrite(mpin1,spd);
   analogWrite(mpin4,0);
-  analogWrite(mpin3,spd);
 }
+
 void stp()
 {
   analogWrite(mpin2,0);
@@ -51,7 +77,7 @@ void stp()
   analogWrite(mpin4,0);
   analogWrite(mpin3,0);
 }
-int ultsnd()
+int ultsndf()
 {
   digitalWrite(trigpin,LOW);
   delayMicroseconds(2);
@@ -66,7 +92,7 @@ int ultsnd()
   
   return distance;
 }
-int ultsnd1()
+int ultsndl()
 {
   digitalWrite(trigpin1,LOW);
   delayMicroseconds(2);
@@ -81,27 +107,3 @@ int ultsnd1()
   
   return distance1;
 }
-void setup() 
-{    
-  pinMode(mpin1,OUTPUT);
-  pinMode(mpin2,OUTPUT);
-  pinMode(mpin3,OUTPUT);
-  pinMode(mpin4,OUTPUT);
-  
-  pinMode(trigpin,OUTPUT);
-  pinMode(echopin,INPUT);
-  pinMode(trigpin1,OUTPUT);
-  pinMode(echopin1,INPUT);
-
-  Serial.begin(9600);
-
-}
-
-void loop() {
-
-
-  
- 
-
-}
-

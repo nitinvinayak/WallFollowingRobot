@@ -57,9 +57,32 @@ void setup()
 
 void loop() {
     distancel=ultsndl();
-    if 
-    move();
-
+    if(distancel>100)
+    {
+      spdl=1.2*0.5*defspd;
+      spdr=2*defspd;
+      move();
+    }
+    while(distancel>100)
+    {
+      distancel=ultsndl();
+    }
+    distancef=ultsndf();
+    if(distancef<20)
+    {
+      spdl=0;
+      spdr=-defspd;
+     
+    }
+    while(distancef<100)
+    {
+      distancef=ultsndf();
+      spdl=defspd;
+      spdr=defspd;
+      
+    }
+    myPID.Compute();
+    
 }
 void move()
 {
@@ -75,13 +98,13 @@ void move()
     else
     {
       analogWrite(mpin4,0);
-      analogWrite(mpin3,spdl);
+      analogWrite(mpin3,-spdl);
     }
   }
   else
   {
     analogWrite(mpin2,0);
-    analogWrite(mpin1,spdr);
+    analogWrite(mpin1,-spdr);
     if (spdl>0)
     {
        analogWrite(mpin3,0);
@@ -90,7 +113,7 @@ void move()
     else
     {
       analogWrite(mpin4,0);
-      analogWrite(mpin3,spdl);
+      analogWrite(mpin3,-spdl);
     }
   }
  

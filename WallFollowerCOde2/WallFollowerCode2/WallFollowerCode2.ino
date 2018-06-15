@@ -1,7 +1,6 @@
 #include <PID_v1.h>
 
 #define mxspd 255
-#define factor=255/8
 #define kp 10
 #define kd 0.5
 #define ki 0
@@ -11,7 +10,7 @@ int mpin2=10;
 int mpin3=5;
 int mpin4=6;
 
-double defspd=200;
+double defspd=150;
 double spdl;
 double spdr;
 

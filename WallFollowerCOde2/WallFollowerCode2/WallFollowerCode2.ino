@@ -33,7 +33,7 @@ double distance1;
 double distancef;
 double distancel;
 
-PID myPID(&distance,&ctrlsgnl,&setpt,kp,kd,ki,DIRECT);
+PID myPID(&distancel,&ctrlsgnl,&setpt,kp,kd,ki,DIRECT);
 
 
 void setup() 
@@ -58,48 +58,55 @@ void setup()
 void loop() {
     distancef=ultsndf();
     distancel=ultsndl();
-    if (distancef>60 && distancel<60 && distancel>30)
+    if(distancef>50 && distancel>30)
     {
+      spdl=defspd;
       spdr=1.2*defspd;
+      move();
+    }
+    while(distancef>50 && distancel>30)
+    {
+      distancef=ultsndf();
+      distancel=ultsndl();
+    }
+
+    if(distancel<30 && distancef>50)
+    {
+      spdr=0.5*defspd;
       spdl=1.2*defspd;
       move();
     }
-    while(distancef>60 && distancel<60 && distancel>30)
+    while(distancel<30 && distancef>50)
     {
-     distancef=ultsndf();
-     distancel=ultsndl();
+      distancef=ultsndf();
+      distancel=ultsndl(); 
     }
 
-    if (distancel<30)
+    if(distancef<50 && distancel>30)
     {
-      spdr=1.2*defspd;
-      spdl=0.5*defspd;
+      spdr=1.2*2*defspd;
+      spdl=0;
       move();
     }
-    while(distancel<30)
+    while(distancef<50 && distancel>30)
     {
-     distancel=ultsndl();
-    }
-    
-     if (distancel>60)
-    {
-      spdr=1.2*defspd;
-      spdl=0.5*defspd;
-      move();
-    }
-    while(distancef>60 && distancel<60 && distancel>30)
-    {
-     distancef=ultsndf();
-     distancel=ultsndl();
+      distancef=ultsndf();
+      distancel=ultsndl();
     }
 
-    if(distancef<60)
+    if(distancef<50 && distancel<30)
     {
-       spdr=1.2*defspd;
-      spdl=0.5*defspd;
+      spdr=0*defspd;
+      spdl=1.2*2*defspd;
       move();
     }
-    
+    while(distancef<50 && distancel<30)
+    {
+      distancef=ultsndf();
+      distancel=ultsndl();
+    }
+
+
     myPID.Compute();
     if(ctrlsgnl>0)
     {

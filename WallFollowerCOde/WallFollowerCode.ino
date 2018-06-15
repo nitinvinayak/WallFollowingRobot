@@ -11,7 +11,7 @@ int mpin2=10;
 int mpin3=5;
 int mpin4=6;
 
-double defspd=100;
+double defspd=200;
 double spdl;
 double spdr;
 
@@ -33,7 +33,7 @@ double distance1;
 double distancef;
 double distancel;
 
-PID myPID(&distance,&ctrlsgnl,&setpt,kp,kd,ki,DIRECT);
+PID myPID(&distancel,&ctrlsgnl,&setpt,kp,kd,ki,DIRECT);
 
 
 void setup() 
@@ -59,7 +59,7 @@ void loop() {
     distancel=ultsndl();
     if(distancel>100)
     {
-      spdl=1.2*0.5*defspd;
+      spdl=1.2*defspd;
       spdr=2*defspd;
       move();
     }
@@ -73,9 +73,12 @@ void loop() {
       spdl=0;
       spdr=-defspd;
       move();
-     
+    while(distancef<20)
+    {
+      distancef=ultsndf();
     }
-    while(distancef<100)
+    }
+    while(distancef>100)
     {
       distancef=ultsndf();
       spdl=defspd;

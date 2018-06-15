@@ -160,6 +160,6 @@ int ultsndl()
   digitalWrite(trigpin1,LOW); 
   duration1=pulseIn(echopin1,HIGH);
   distance1=duration1*.034/2;
- 
+
   return distance1;
 }

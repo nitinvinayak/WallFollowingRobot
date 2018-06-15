@@ -57,17 +57,43 @@ void setup()
 
 void loop() {
     distancel=ultsndl();
-   move();
+    if 
+    move();
 
 }
 void move()
 {
-  
-  
-  analogWrite(mpin1,0);
-  analogWrite(mpin2,255);
-  analogWrite(mpin3,0);
-  analogWrite(mpin4,0);
+  if (spdr>0)
+  {
+    analogWrite(mpin1,0);
+    analogWrite(mpin2,spdr);
+    if (spdl>0)
+    {
+       analogWrite(mpin3,0);
+       analogWrite(mpin4,spdl);
+    }
+    else
+    {
+      analogWrite(mpin4,0);
+      analogWrite(mpin3,spdl);
+    }
+  }
+  else
+  {
+    analogWrite(mpin2,0);
+    analogWrite(mpin1,spdr);
+    if (spdl>0)
+    {
+       analogWrite(mpin3,0);
+       analogWrite(mpin4,spdl);
+    }
+    else
+    {
+      analogWrite(mpin4,0);
+      analogWrite(mpin3,spdl);
+    }
+  }
+ 
 }
 
 void stp()
@@ -85,7 +111,7 @@ int ultsndf()
   delayMicroseconds(10);
   digitalWrite(trigpin,LOW);
   duration=pulseIn(echopin,HIGH);
-  distance=duration*.03412;
+  distance=duration*.034/2;
 
   Serial.print("Distance: ");
   Serial.println(distance);
@@ -100,7 +126,7 @@ int ultsndl()
   delayMicroseconds(10);
   digitalWrite(trigpin1,LOW); 
   duration1=pulseIn(echopin1,HIGH);
-  distance1=duration1*.03412;
+  distance1=duration1*.034/2;
 
   Serial.print("Distance1: ");
   Serial.println(distance1);

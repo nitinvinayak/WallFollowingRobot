@@ -1,7 +1,6 @@
 #include <PID_v1.h>
 
 #define mxspd 255
-#define factor=255/8
 #define kp 10
 #define kd 0.5
 #define ki 0
@@ -11,7 +10,7 @@ int mpin2=10;
 int mpin3=5;
 int mpin4=6;
 
-double defspd=200;
+double defspd=150;
 double spdl;
 double spdr;
 
@@ -56,28 +55,17 @@ void setup()
 }
 
 void loop() {
-    distancel=ultsndl();
-    if(distancel>100)
-    {
-      spdl=1.2*defspd;
-      spdr=2*defspd;
-      move();
-    }
     distancef=ultsndf();
-    if(distancef<20)
+    distancel=ultsndl();
+    if(distancef>50 && distancel>30)
     {
-      spdl=0;
-      spdr=-defspd;
-      move();
-    }
-    if(distancef>100)
-    {
-      distancef=ultsndf();
       spdl=defspd;
-      spdr=defspd;
+      spdr=1.2*defspd;
       move();
-      
     }
+    
+
+
     myPID.Compute();
     if(ctrlsgnl>0)
     {

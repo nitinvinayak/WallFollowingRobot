@@ -57,34 +57,35 @@ void setup()
 void loop() {
     distancef=ultsndf();
     distancel=ultsndl();
-    if(distancef>30 && distancel>20)
+    while(distancef>30 && distancel>20)
     {
       spdl=1.2*defspd;
       spdr=1.2*defspd;
       move();
-      delay(500);
+      
     }
-    if(distancel<15 && distancef>35)
+    
+    while(distancel<15 && distancef>35)
     {
       spdl=1.2*defspd;
       spdr=0.25*defspd;
       move();
       delay(500);
     }
-    if(distancef<40 )
+    while(distancef<40 )
     {
       spdl=(-0.75*defspd);
       spdr=(-0.75*defspd);
       move();
       delay(2000);
     }
-    else
+/*    else
     {
       stp();
     }
 
-
-    myPID.Compute();
+*/
+    /*myPID.Compute();
     if(ctrlsgnl>0)
     {
       spdl=1.2*(defspd+ctrlsgnl);
@@ -99,7 +100,7 @@ void loop() {
       spdl=defspd;
       move();
       delay(500);
-    }
+    }*/
     Serial.println(distancef);
     Serial.println(ctrlsgnl);
 }
